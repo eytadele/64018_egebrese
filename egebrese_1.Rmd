@@ -1,0 +1,26 @@
+#MIS 64018: Assignment 1
+##by Eyob Tadele
+
+###**Source:** Original data was taken from dslabs package, and the murders dataset
+###murders dataset has been converted to .csv file
+
+
+**1. Reading data from a csv file and display the first six rows of data**
+
+```{r}
+murdersdata <- read.csv("murders.csv")
+head(murdersdata)
+```
+
+**2. Producing summary statistics for the data**
+```{r}
+str(murdersdata)
+summary(murdersdata)
+```
+
+**3. Plotting the murders by population graph**
+```{r}
+plot(murdersdata$total,murdersdata$population, xlab="murders", ylab="population")
+```
+
+##END OF DOCUMENT
