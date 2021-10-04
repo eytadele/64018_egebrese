@@ -1,0 +1,85 @@
+---
+title: 'MIS 64018: Assignment_2: Solving LP problems'
+author: "Eyob Tadele"
+date: "10/003/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Question 3:
+
+### a. Define the decision variables:
+
+The decision variables are what products (L, M, S) to be produced, at which plant (P1, P2, P3). 
+		LP1: Large at Plant1
+		LP2: Large at Plant2
+		LP3: Large at Plant3
+		MP1: Medium at Plant1
+		MP2: Medium at Plant2
+		MP3: Medium at Plant3
+		SP1: Small at Plant1
+		SP2: Small at Plant2
+		SP3: Small at Plant3
+
+### b. The objective funtion for this problem is to maximize profit by producing optimum amounts of each product in the respective plants.
+
+	MAX z: 
+
+	420xLP1 + 420xLP2 + 420xLP3 + 360xMP1 + 360xMP2 + 360xMP3 + 300xSP1 + 300xSP2 + 300xSP3 
+
+	S.T.
+
+	**capacity to produce constraint:** 
+	LP1 + MP1 + SP1 <= 750
+	LP2 + MP2 + SP2 <= 900
+	LP3 + MP3 + SP3 <= 450
+
+	**available storage constraint:**
+	20 x LP1 + 15 x MP1 + 12 x SP1 <= 750
+	20 x LP2 + 15 x MP2 + 12 x SP2 <= 900
+	20 x LP3 + 15 x MP3 + 12 x SP3 <= 450
+
+	**sales constraint:**
+	LP1 + LP2 + LP3	<= 900
+	MP1 + MP2 + MP3 <= 1200
+	SP1 + SP2 + SP3 <= 750
+
+	Percentage of excess capacity constraint: 
+	i.e. (Products/Plant)x100% should be the same across all plants
+
+	100 x ((LP1 + MP1 + SP1)/750) = ((LP2 + MP2 + SP2)/900) x 100
+	re-arranging the equation:
+
+		(LP1 + MP1 + SP1)/750 = (LP2 + MP2 + SP2)/900
+
+		(1/750) x (LP1 + MP1 + SP1) = (1/900) x (LP2 + MP2 + SP2)
+
+		0.0013 x LP1 + 0.0013 x MP1 + 0.0013 xSP1 - 0.0011 x LP1 - 0.0011 x MP1 - 0.0011 x SP1 = 0
+
+		doing the same as above between (P1,P3) and (P2,P3):
+  
+  **Percentage of excess capacity constraint:**
+	0.0013 x LP1 + 0.0013 x MP1 + 0.0013 xSP1 - 0.0022 x LP1 - 0.0022 x MP1 - 0.0022 x SP1 = 0
+  0.0011 x LP1 + 0.0011 x MP1 + 0.0011 xSP1 - 0.0022 x LP1 - 0.0022 x MP1 - 0.0022 x SP1 = 0
+	0.0013 x LP1 + 0.0013 x MP1 + 0.0013 xSP1 - 0.0011 x LP1 - 0.0011 x MP1 - 0.0011 x SP1 = 0
+	
+### Solving the problem using lpsolve, or any other equivalent library in R.
+
+Loading the lpSolveAPI library
+```{r}
+library(lpSolveAPI)
+```
+Reading the lp formulation from assignment2.lp file and assign it to WeigeltProd 
+```{r}
+WeigeltProd <- read.lp("assignment2.lp")
+WeigeltProd
+```
+Solve the lp model
+```{r}
+solve(WeigeltProd)    # if output is 0, it means there's a successful solution
+get.objective(WeigeltProd)        # get objectiv
+get.variables(WeigeltProd)        # get values of decision variables
+get.constraints(WeigeltProd)      # get constraint RHS values
+```
+	
