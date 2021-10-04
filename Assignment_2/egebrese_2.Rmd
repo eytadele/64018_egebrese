@@ -78,7 +78,7 @@ WeigeltProd
 Solve the lp model
 ```{r}
 solve(WeigeltProd)    # if output is 0, it means there's a successful solution
-get.objective(WeigeltProd)        # get objectiv
+get.objective(WeigeltProd)        # This is the objective value
 get.variables(WeigeltProd)        # get values of decision variables
 get.constraints(WeigeltProd)      # get constraint RHS values
 ```
