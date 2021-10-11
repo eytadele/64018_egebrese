@@ -80,13 +80,13 @@ d
 ```
 Solving the dual problem
 ```{r}
-solve(p)    # if output is 0, it means there's a successful solution
+solve(d)    # if output is 0, it means there's a successful solution
 
 # the objective value for this problem is:
-get.objective(p)        
+get.objective(d)        
 
 # the values of decision variables for the optimal solution are:
-get.variables(p)        
+get.variables(d)        
 ```
 
 ### The values I observed from solving the dual does agree with the results of the primal problem. The optimal values of the primal and the dual are both 696000. 
