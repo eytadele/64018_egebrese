@@ -89,5 +89,5 @@ get.objective(p)
 get.variables(p)        
 ```
 
-### The values I observed from solving the dual does not fall in line with the results of the primal problem. The optimal value of the primal is 696000 and the dual is 698000. 
-### Also, the shadow prices of the primal and the decision variables of the dual are not the same either.
+### The values I observed from solving the dual does agree with the results of the primal problem. The optimal values of the primal and the dual are both 696000. 
+### Also, the shadow prices of the primal and the decision variables of the dual are the same values too.
