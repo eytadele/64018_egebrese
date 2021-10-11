@@ -1,0 +1,93 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# MIS 64018: Assignment_3
+# Post-optimality and sensitivity analysis for LP problems
+
+##by Eyob Tadele
+
+##10/09/2021
+
+### Solving the problem using lpsolve, or any other equivalent library in R.
+Loading the lpSolveAPI library
+```{r}
+library(lpSolveAPI)
+```
+Reading the lp formulation from weigelt.lp file and assign it to w 
+```{r}
+p <- read.lp("weigelt.lp")
+p
+```
+### Question 1: Solve the problem using lpsolve library in r.
+```{r}
+solve(p)    # if output is 0, it means there's a successful solution
+# the objective value for this problem is:
+get.objective(p)        
+# the values of decision variables for the optimal solution are:
+get.variables(p)        
+```
+### Question 2: Identify shadow prices, dual solution, and reduced costs.
+```{r}
+# the constraint RHS values are as follows: 
+get.constraints(p)      
+# the shadow prices are the following(the last 9 values are for the non-negativity constraints):
+get.sensitivity.rhs(p) 
+# the reduced costs are as follows: 
+get.sensitivity.obj(p)  
+```
+### Question 3: Further, identify the sensitivity of the above prices and costs.
+The range of reduced cost values that maintain the optimal solution are as follows:
+
+Constraints   |   Range
+-----------   |   ----------------
+L1            |   [360,460] 
+M1            |   [345,420] 
+S1            |   [-infinity, 324]
+L2            |   [-infinity, 460]
+M2            |   [345,420]
+S2            |   [252,324]
+L3            |   [-infinity, 780]
+M3            |   [-infinity, 480]
+S3            |   [204, +infinity]
+
+
+
+The range of shadow prices for constraints(C) 1 to 11, that maintain the optimal solution are as follows: 
+
+Constraints   |   Range
+-----------   |   ----------------
+C1            |   [-infinity, +infinity]
+C2            |   [-infinity, +infinity]
+C3            |   [-infinity, +infinity]
+C4            |   [11222.22, 13888.9]
+C5            |   [11500, 12500]
+C6            |   [4800, 5181.8]
+C7            |   [-infinity, +infinity]
+C8            |   [-infinity, +infinity]
+C9            |   [-infinity, +infinity]
+C10           |   [-25000, 25000]
+C11           |   [-12500, 12500]
+
+### Question 4: Formulate the dual of the above problem and solve it. Does it agree with what you observed for the primal problem?
+
+Reading the lp formulation from weigelt_d.lp file and assign it to w 
+```{r}
+d <- read.lp("weigelt_d.lp")
+d
+```
+Solving the dual problem
+```{r}
+solve(p)    # if output is 0, it means there's a successful solution
+
+# the objective value for this problem is:
+get.objective(p)        
+
+# the values of decision variables for the optimal solution are:
+get.variables(p)        
+```
+
+### The values I observed from solving the dual does not fall in line with the results of the primal problem. The optimal value of the primal is 696000 and the dual is 698000. 
+### Also, the shadow prices of the primal and the decision variables of the dual are not the same either.
