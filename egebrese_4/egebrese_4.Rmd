@@ -1,0 +1,107 @@
+---
+title: 'MIS 64018: Assignment_4: Transportation / Transshipment problem '
+author: "Eyob Tadele"
+date: "10/22/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+### Project Objective
+The purpose of this assignment is to formulate and solve a transportation / transshipment problem.
+
+#### Problem Formulation:
+Since we are required to find a solution that minimizes the combined cost of production and shipment, this is obviously a minimization problem. In addition, we can see that Plants A and B have a combined production capacity(i.e. supply) of 220. Whereas, the warehouses have a combined demand of 210. This makes for an unbalanced problem which requires introducing a dummy warehouse. The formulation below puts that into consideration.
+&nbsp;
+
+Plant         | W1 | W2 | W3 | W4* | Output 
+------------- | ---| ---| ---| ----| ------
+Plant A       | 22 | 14 | 30 | M(0)| 100 
+Plant B       | 16 | 20 | 24 | M(0)| 120 
+------------- | ---| ---| ---| ----| ------
+Demand        | 80 | 60 | 70 | 10  | 
+
+Objective function: \
+Min: Z = 622 x11 + 614 x12 + 630 x13 + 641 x21 + 645 x22 + 649 x23
+Subject to: \
+x11 + x12 + x13 + M14 = 100 \
+x21 + x22 + x23 + M24 = 120 \
+x11 + x21 = 80 \
+x12 + x22 = 60 \
+x13 + x23 = 70 \
+M14 + M24 = 10 \
+(x11,x12,x13,x21,x22,x23) >= 0 \
+
+### Solving the problem using lpsolve, or any other equivalent library in R.
+Loading the lpSolveAPI library
+```{r}
+library(lpSolveAPI)
+```
+
+```
+/*Objective function*/
+Min: 622 x11 + 614 x12 + 630 x13 + 641 x21 + 645 x22 + 649 x23;
+/*Constraints*/
+x11 + x12 + x13 + M14 = 100;
+x21 + x22 + x23 + M24 = 120;
+x11 + x21 = 80;
+x12 + x22 = 60;
+x13 + x23 = 70;
+M14 + M24 = 10;
+```
+
+Reading the lp formulation from HS.lp file and assign it to p
+```{r}
+p <- read.lp("HS.lp")
+p
+```
+### Question 1: Solve this transportation problem using lpsolve library in r.
+```{r}
+solve(p)
+# the objective value for this problem is:
+get.objective(p)        
+# the values of decision variables for the optimal solution are:
+get.variables(p)
+```
+
+#### The overall total cost is $132,790. As for shipments from plants to warehouses, Plant A should ship 60 AEDs to Warehouse2 and 40 AEDs to Warehouse3; Plant B should ship 80 AEDs to Warehouse1 and 30 to Warehouse3.
+#### The last two values for the decision variables are shipments for the dummy Warehouse4.
+
+\newpage
+
+## Part 2: Oil Distribution transshipment problem.
+
+```
+/*Objective Function*/
+Min: 1.52 X1 + 1.60 X2 + 1.40 X3 + 1.7 X4 + 1.63 X5 + 1.55 X6 + 1.45 X7 + 1.57 X8 + 1.30 X9 + 
+  5.15 X10 + 5.69 X11 + 6.13 X12 + 5.63 X13 + 5.80 X14 + 5.12 X15 + 5.47 X16 + 6.05 X17 + 6.12 X18 + 
+  5.71 X19 + 5.32 X20 + 6.16 X21 + 6.25 X22 + 6.17 X23 + 5.87 X24;
+/*Constraints*/
+X1 + X2 + X3 = 93;
+X4 + X5 + X6 = 88;
+X7 + X8 + X9 = 95;
+X10 + X15 + X20 = 30;
+X11 + X16 + X21 = 57;
+X12 + X17 + X22 = 48;
+X13 + X18 + X23 = 91;
+X14 + X19 + X24 = 48;
+M16 + M26 + M36 = 2;
+X1 + X4 + X7 - X10 - X11 - X12 - X13 - X14 - M16 = 0;
+X2 + X5 + X8 - X15 - X16 - X17 - X18 - X19 - M26 = 0;
+X3 + X6 + X9 - X20 - X21 - X22 - X23 - X24 - M36 = 0;
+```
+
+Reading the lp formulation from TOD.lp file and assign it to x
+```{r}
+x <- read.lp("TOD2.lp")
+x
+```
+### Question 1: Solve this transportation problem using lpsolve library in r.
+```{r}
+solve(x)
+# the objective value for this problem is:
+get.objective(x)        
+# the values of decision variables for the optimal solution are:
+get.variables(x)
+```
+#### The minimum cost is 1966.68. Note that the last three values for the decision variables are for the dummy refineries. 
