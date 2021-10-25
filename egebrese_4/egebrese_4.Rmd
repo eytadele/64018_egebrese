@@ -104,4 +104,4 @@ get.objective(x)
 # the values of decision variables for the optimal solution are:
 get.variables(x)
 ```
-#### The minimum cost is 1966.68. Note that the last three values for the decision variables are for the dummy refineries. 
+#### The minimum cost is 1966.68. Wells 1 and 2 are operating at capacity. Note that the last three values for the decision variables are for the dummy refineries. 
